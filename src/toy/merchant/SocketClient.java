@@ -5,7 +5,8 @@
  */
 package toy.merchant;
 
-import java.io.DataInputStream;
+
+import java.io.IOException;
 import java.net.Socket;
 import java.util.UUID;
 
@@ -25,12 +26,12 @@ public class SocketClient {
         try {
             soc = new Socket(toy_server_name,port_number);           
         }
-        catch(Exception ex){
+        catch(IOException ex){
             System.out.println("Exeption caught"+ ex);
         }
     }
     public Socket getSocket(){
-        System.out.println("The socket is: "+soc);
+        System.out.println("The socket is : "+soc);
         return soc;
     }
     

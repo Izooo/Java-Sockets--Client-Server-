@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.UUID;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class ClientProtocol {
 
     static DataInputStream data_in;
+    static DataInputStream data_confirm;
     static DataOutputStream data_out;
     //static ObjectOutputStream objectOutputStream;
 
@@ -37,7 +39,9 @@ public class ClientProtocol {
                 try {
                     
                     String toy_information;
+                    String confirmation;
                     data_in = new DataInputStream(socket.getInputStream());
+                    data_confirm = new DataInputStream(socket.getInputStream());
                     data_out = new DataOutputStream(socket.getOutputStream());
 
                     
@@ -53,16 +57,24 @@ public class ClientProtocol {
                                         objectOutputStream.writeObject(toy_object);
                                                
                                         objectOutputStream.flush();
-                                   
+                                        
+                                    confirmation = data_confirm.readUTF();
+                                    System.out.println("Server Says!: "+confirmation);
+                                    JOptionPane.showMessageDialog(null, "Server Says!"+confirmation);
                                     break;
                                 }
                             case "Send Toy Information":
                                 {
+                                    
                                     ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
                                     //Toy Information
                                     ToyObject toy_object = new ToyObject();
                                     objectOutputStream.writeObject(toy_object);
                                     objectOutputStream.flush();
+                                    
+                                    confirmation = data_confirm.readUTF();
+                                    System.out.println("Server Says!: "+confirmation);
+                                    JOptionPane.showMessageDialog(null, "Server Says!"+confirmation);
                                     break;
                                 }
                             case "Send Toy Manufacturer":
@@ -72,6 +84,10 @@ public class ClientProtocol {
                                     ToyObject toy_object = new ToyObject();
                                     objectOutputStream.writeObject(toy_object);
                                     objectOutputStream.flush();
+                                    
+                                    confirmation = data_confirm.readUTF();
+                                    System.out.println("Server Says!: "+confirmation);
+                                    JOptionPane.showMessageDialog(null, "Server Says!"+confirmation);
                                     break;
                                 }
                             //Thank you + unique code
@@ -89,6 +105,10 @@ public class ClientProtocol {
                                     ToyObject toy_object = new ToyObject();
                                     objectOutputStream.writeObject(toy_object);
                                     objectOutputStream.flush();
+                                    
+                                    confirmation = data_confirm.readUTF();
+                                    System.out.println("Server Says!: "+confirmation);
+                                    JOptionPane.showMessageDialog(null, "Server Says!"+confirmation);
                                     break;
                                 }
                             default:

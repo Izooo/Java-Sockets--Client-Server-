@@ -17,10 +17,10 @@ import javax.swing.JOptionPane;
  *
  * @author isaac
  */
-public class toy_server extends javax.swing.JFrame {
+public class ServerProtocol extends javax.swing.JFrame {
 
     /**
-     * Creates new form toy_server
+     * Creates new form ServerProtocol
      */
     static ServerSocket ss;
     static Socket s;
@@ -28,7 +28,7 @@ public class toy_server extends javax.swing.JFrame {
     static DataOutputStream data_out;
     Timestamp timestamp;
 
-    public toy_server() {
+    public ServerProtocol() {
         initComponents();
         
         
@@ -58,7 +58,7 @@ public class toy_server extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel1.setText("Toy Server");
+        jLabel1.setText("TOY SERVER");
 
         msg_area.setEditable(false);
         msg_area.setColumns(20);
@@ -193,11 +193,15 @@ public class toy_server extends javax.swing.JFrame {
                     
                     ToyObject toy_object = (ToyObject) objectInputStream.readObject();
                     
+                    String confirmation = "Successfully Received!";
+                    data_out = new DataOutputStream(s.getOutputStream());
+                    data_out.writeUTF(confirmation);
+                    
                     msg_area.setText(msg_area.getText().trim()+"\n\n \b [ "+timestamp+" ] Client: Toy Code: " + toy_object.getToy_Code()+" - Toy Name: "+toy_object.getToy_Name()+"\n");
                     
                 } catch (Exception ex) {
                     System.out.println("Server Exception caught 1: " + ex);
-                    JOptionPane.showMessageDialog(jButton6.getParent(), "Sorry an Error has occured. Please Try again", "Inane error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Sorry an Error has occured. Please Try again", "Inane error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }.start();
@@ -220,12 +224,14 @@ public class toy_server extends javax.swing.JFrame {
                         timestamp = new Timestamp(System.currentTimeMillis());
                         ss = new ServerSocket(port_number);
                         msg_area.setText("  \b [ "+timestamp+" ] Server: Waiting for Clients");
+                        new toy_client_home().setVisible(true);
                         s = ss.accept();
+                        
                         System.out.println("Connection established");
                         msg_area.setText(msg_area.getText().trim()+"\n\n \b [ "+timestamp+" ] Server: Connection established");
                     } catch (Exception ex) {
                         System.out.print("server Exception caught: " + ex);
-                        JOptionPane.showMessageDialog(jButton6.getParent(), "Sorry an Error has occured. Port already in use.", "inane error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Sorry an Error has occured. Port already in use.", "inane error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }.start();
@@ -254,6 +260,10 @@ public class toy_server extends javax.swing.JFrame {
                     ObjectInputStream objectInputStream = new ObjectInputStream(s.getInputStream());
 
                     ToyObject toy_object = (ToyObject) objectInputStream.readObject();
+                    
+                    String confirmation = "Successfully Received!";
+                    data_out = new DataOutputStream(s.getOutputStream());
+                    data_out.writeUTF(confirmation);
                     
                     msg_area.setText(msg_area.getText().trim()+"\n\n \b [ "+timestamp+" ] Client: Toy Name: " + toy_object.getToy_Name()+" - Toy description: "+toy_object.getToy_Description()+" - Toy Price: "+toy_object.getToy_Price()+" - Toy Date of Manufacture: "+
                             toy_object.getToy_Date_of_Manufacture()+" - Toy Batch No: "+toy_object.getToy_Batch_No()+"\n");
@@ -284,6 +294,10 @@ public class toy_server extends javax.swing.JFrame {
 
                     ToyObject toy_object = (ToyObject) objectInputStream.readObject();
                     
+                    String confirmation = "Successfully Received!";
+                    data_out = new DataOutputStream(s.getOutputStream());
+                    data_out.writeUTF(confirmation);
+                    
                     msg_area.setText(msg_area.getText().trim()+"\n\n \b [ "+timestamp+" ] Client: Toy Company Name: " + toy_object.getToy_Company()+" - Toy Street Address: "+toy_object.getToy_Street_address()+" - Toy Zip-Code: "+toy_object.getToy_Zip_code()+" - Toy Country Origin: "+
                             toy_object.getToy_Country()+"\n");
                 } catch (Exception ex) {
@@ -313,7 +327,7 @@ public class toy_server extends javax.swing.JFrame {
                     data_in = new DataInputStream(s.getInputStream());
                     Thank_you_message = data_in.readUTF();
                     
-                    JOptionPane.showMessageDialog(jButton6.getParent(), Thank_you_message);
+                    JOptionPane.showMessageDialog(null, Thank_you_message);
                     msg_area.setText(msg_area.getText().trim()+"\n\n \b [ "+timestamp+" ] Client: "+Thank_you_message+"\n");
                     
                 } catch (Exception ex) {
@@ -341,6 +355,10 @@ public class toy_server extends javax.swing.JFrame {
                     ObjectInputStream objectInputStream =  new ObjectInputStream(s.getInputStream());
                     
                     ToyObject toy_object = (ToyObject) objectInputStream.readObject();
+                    
+                    String confirmation = "Successfully Received!";
+                    data_out = new DataOutputStream(s.getOutputStream());
+                    data_out.writeUTF(confirmation);
                     
                     msg_area.setText(msg_area.getText().trim()+"\n\n \b [ "+timestamp+" ] Client: Toy Code: " + toy_object.getToy_Code()+" Toy Name: " + toy_object.getToy_Name()+" - Toy description: "+toy_object.getToy_Description()+" - Toy Price: "+toy_object.getToy_Price()+" - Toy Date of Manufacture: "+
                             toy_object.getToy_Date_of_Manufacture()+" - Toy Batch No: "+toy_object.getToy_Batch_No()+"\n - Toy Company Name " + toy_object.getToy_Company()+" - Toy Street Address: "+toy_object.getToy_Street_address()+" - Toy Zip-Code: "+toy_object.getToy_Zip_code()+" - Toy Country Origin: "+
@@ -370,20 +388,21 @@ public class toy_server extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(toy_server.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ServerProtocol.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(toy_server.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ServerProtocol.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(toy_server.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ServerProtocol.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(toy_server.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ServerProtocol.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new toy_server().setVisible(true);
+                new ServerProtocol().setVisible(true);
             }
 
         });

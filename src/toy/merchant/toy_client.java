@@ -4,7 +4,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import javax.swing.JOptionPane;
-import static toy.merchant.toy_server.s;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -66,7 +65,7 @@ public class toy_client extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Toy Client");
+        jLabel1.setText("Toy Client form");
 
         jLabel3.setText("Manufacturer Information");
 
@@ -212,6 +211,7 @@ public class toy_client extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void toy_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toy_nameActionPerformed
@@ -244,8 +244,9 @@ public class toy_client extends javax.swing.JFrame {
 
         System.out.println("The toy code is: "+toy_company);
         
-        JOptionPane.showMessageDialog(toy_batch_no.getParent(), "Successful!");
+        JOptionPane.showMessageDialog(null, "Successful!");
         
+        this.dispose(); 
         /* remove later*/
         /*
         String msg_toy_code = "";
@@ -303,32 +304,6 @@ public class toy_client extends javax.swing.JFrame {
         
         System.out.println("The server asks?");
         
-        
-        new Thread(){
-            @Override
-            public void run() {
-                try{
-                    String toy_information = "Isaax";
-                    data_in = new DataInputStream(s.getInputStream());
-                     //data_out = new DataOutputStream(s.getOutputStream());
-                     while(true){
-                        System.out.println("Aicha v0"+data_in.readUTF());
-                            toy_information = data_in.readUTF();
-                            
-                            System.out.println("Aicha v1");
-                            System.out.println(toy_information );
-                            System.out.println("Aicha v2");
-                            System.out.println("1 direction"+toy_information);
-                        //msg_area.setText(msg_area.getText().trim()+"\n Server: \t"+msg_in);
-                     }
-                }
-
-                catch(Exception ex){
-                    System.out.println("Exception is: "+ex);
-                } 
-            }
-        }.start();
-
         
        
         
